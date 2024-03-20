@@ -19,7 +19,7 @@ function Header() {
 
         </ul>
 
-       <Link to="/my-saved-cars"><button>My Saved Cars</button></Link>
+       <Link to="/my-saved-cars"><button className='button'>My Saved Cars</button></Link>
     </div>
   );
 }
