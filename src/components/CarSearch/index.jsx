@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Slider from "react-slick";
+
 import "./style.css";
 import Powerfull from "../../assets/sounds/Powerfull.mp3";
 import Quiet from "../../assets/sounds/Quiet.mp3";
@@ -46,22 +46,7 @@ const CarCard = ({ car }) => {
     }
   };
 
-  // const addToFavorites = () => {
-  //   const existingFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
-  //   const isAlreadyFavorite = existingFavorites.some(favorite => favorite.id === car.id);
 
-  //   if (!isAlreadyFavorite) {
-  //     const updatedFavorites = [...existingFavorites, car];
-  //     localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-  //     setIsFavorite(true);
-  //     console.log('Added to favorites:', car);
-  //   } else {
-  //     const updatedFavorites = existingFavorites.filter(favorite => favorite.id !== car.id);
-  //     localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-  //     setIsFavorite(false);
-  //     console.log('Car is already in favorites:', car);
-  //   }
-  // };
   const addToFavorites = () => {
     const existingFavorites =
       JSON.parse(localStorage.getItem("favorites")) || [];
@@ -128,20 +113,7 @@ const CarCard = ({ car }) => {
   );
 };
 
-///THIS IS THE ENTIRE MODULE WHICH DISPLAYS ALL THE CARDS. className="car-list" IS DEFINED IN THE CSS AND IS SET TO FLEX
-//WE NEED TO MODIFY THIS TO DISPLAY ONLY 20 CARS AND 'PREV' 'NEXT' BUTTONS
-//THIS RETURNS ALL CARS
-// const CarList = ({ cars }) => {
-//   return (
-//     <div className="car-list">
-//       <Slider></Slider>
-//       {cars.map(car => (
-//         <CarCard key={car.id} car={car} />
-//       ))}
-//     </div>
-//   );
-// };
-//THIS RETURNS 20 per page CARS. ADDED CONSTS TO DISPLAY NUMBER OF RESULTS AND PER PAGE
+
 const CarList = ({ cars }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const carsPerPage = 20;
@@ -177,7 +149,6 @@ const CarList = ({ cars }) => {
         </button>
       </div>
       <div className="car-list">
-        <Slider></Slider>
         {currentCars.map((car) => (
           <CarCard key={car.id} car={car} />
         ))}
@@ -189,27 +160,24 @@ const CarList = ({ cars }) => {
 ///THIS DEFINES THE SEARCH. ALSO HANDLERS TO AVOID ANY ERRORS RESULTING FROM CASE SENSITIVITY
 const CarSearch = ({ data }) => {
   const [type, setType] = useState("");
-  const [brand, setBrand] = useState("");
   const [location, setLocation] = useState("");
   const [filteredCars, setFilteredCars] = useState(data);
+
+  ///THIS CREATES AN ARRAY FROM THE CAR DATA TO INCLUDE ALL LOCATIONS IN THE DATA. BETTER THAN HARDCODING IN THE VALUES AS THEY MAY CHANGE
+  const locations = Array.from(new Set(data.map((car) => car.location)));
+
+  ///THIS CREATES AN ARRAY FROM THE CAR DATA TO INCLUDE ALL CAR TYPES IN THE DATA.
+  const types = Array.from(new Set(data.map((car) => car.type)));
 
   const handleSearch = () => {
     const filtered = data.filter((car) => {
       const typeMatch = car.type.toLowerCase().includes(type.toLowerCase());
-      // Added brand search button to search car by brand name
-      const brandMatch = car.car_brand
-        .toLowerCase()
-        .includes(brand.toLowerCase());
       const locationMatch = car.location
         .toLowerCase()
         .includes(location.toLowerCase());
-      return typeMatch && locationMatch && brandMatch;
+      return typeMatch && locationMatch;
     });
     setFilteredCars(filtered);
-    // Clears search input
-    setType("");
-    setBrand("");
-    setLocation("");
   };
 
   ///THIS IS THE SEARCH FORM. WE SHOULD CHANGE type="text" TO LIST POPULATED BY THE AVAILABLE OPTIONS
@@ -218,25 +186,37 @@ const CarSearch = ({ data }) => {
     <div>
       <h1 className="heading">Search for Cars</h1>
       <div>
-        <input
+        {/*THIS WAS THE REGULAR TEXT INPUT... NOW REPLACED BY THE <select> below....:
+        /* <input
           type="text"
           placeholder="Enter car type"
           value={type}
           onChange={(e) => setType(e.target.value)}
-        />
-        {/* Input for car brand search */}
-        <input
-          type="text"
-          placeholder="Enter car brand name"
-          value={brand}
-          onChange={(e) => setBrand(e.target.value)}
-        />
-        <input
+        /> */}
+        <select value={type} onChange={(e) => setType(e.target.value)}>
+          <option value="">Select type</option>
+          {types.map((loc, index) => (
+            <option key={index} value={loc}>
+              {loc}
+            </option>
+          ))}
+        </select>
+
+        {/* <input
           type="text"
           placeholder="Enter location"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-        />
+        /> */}
+        <select value={location} onChange={(e) => setLocation(e.target.value)}>
+          <option value="">Select location</option>
+          {locations.map((loc, index) => (
+            <option key={index} value={loc}>
+              {loc}
+            </option>
+          ))}
+        </select>
+
         <button onClick={handleSearch}>Search</button>
       </div>
       <div className="car-list">
@@ -248,5 +228,6 @@ const CarSearch = ({ data }) => {
     </div>
   );
 };
+
 
 export default CarSearch;
