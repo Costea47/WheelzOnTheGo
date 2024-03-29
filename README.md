@@ -25,8 +25,8 @@ No installation required. The Web page can be viewed using modern web browser su
 The following images shows the web application's appearance and functionality:
 
 ![Homepage](./src/assets/images/homepage_image.png)
-![FavouriteCars](src\assets\images\favourites_car_image.png)
-![ContactUS](src\assets\images\contactUs_page_image.png)
+![FavouriteCars](./src/assets/images/favourites_car_image.png)
+![ContactUS](./src/assets/images/contactUs_page_image.png)
 
 ## Libraries Integration
 
