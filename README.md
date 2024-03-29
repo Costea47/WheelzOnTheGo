@@ -10,6 +10,9 @@ A Car Sharing App
 
 WheelzOnTheGo is a car sharing platform designed to provide exceptional car rental services catering to a wide range of needs, preferences, and destinations. Similar to Airbnb for cars, users can rent cars by the hour, with rates varying based on the car category. The platform utilizes a JSON file to populate available car details, offering a clean UI to browse cars in the user's area.
 
+<br>
+[WheelzOnTheGo](https://wheelzonthego.netlify.app/)
+
 # Features
 
 Browse a variety of cars available in your city and rent them by the hour.
